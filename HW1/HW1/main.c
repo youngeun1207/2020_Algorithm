@@ -1,5 +1,5 @@
 // 1-1
-// Min Heap sort
+// Max Heap sort
 
 #include <stdio.h>
 #include <stdlib.h>
