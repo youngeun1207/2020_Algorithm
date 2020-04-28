@@ -1,10 +1,175 @@
 // 1-2
-// heap sort
+// merge sorted lists by heap sort
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <limits.h>
+
+#define MAX 100
+
+typedef struct _Element{
+    int Line;
+    int Element;
+}Element;
+
+typedef struct _Heap{
+    int Capacity;
+    int Size;
+    Element *Key;
+}Heap;
+
+Heap* CreateHeap(int heapSize);
+void Insert(Heap* heap, int value, int line);
+Element DeleteMin(Heap* heap, int lists[][MAX]);
+void Heapify(Heap* heap);
+void PrecDown(Heap* heap, int i);
+void PrintHeap(Heap* heap);
 
 int main(int argc, const char * argv[]) {
+    FILE *fp = fopen("./input1-2.txt", "r");
+    int num;
+    char input_node[MAX];
+    char* token;
+    int lists[MAX][MAX];
+    int index[MAX];
+    Element Min;
+    
+    fgets(input_node, MAX, fp);
+    num = atoi(input_node);
+    
+    for(int i = 0; i < num; i++){
+        fgets(input_node, MAX, fp);
+        token = strtok(input_node, " ");
+        int j = 1;
+        while(token!=NULL){
+            lists[i][j] = atoi(token);
+            token = strtok(NULL, " ");
+            j++;
+        }
+        // save # of elements of lists[i] in lists[i][0]
+        lists[i][0] = j - 1;
+        index[i] = 1;
+    }
+    
+    Heap* minHeap = CreateHeap(num);
+    
+    // init Heap
+    for (int i = 0; i < num; i++) {
+        if(lists[i][0] == 0){
+            minHeap->Capacity--;
+            continue;
+        }
+        else{
+            Insert(minHeap, lists[i][index[i]++], i);
+        }
+    }
+    
+    // run loop till every line is empty
+    while(minHeap->Capacity){
+        Heapify(minHeap);
+        Min = DeleteMin(minHeap, lists);
+        printf("%d ", Min.Element);
+        
+        if(lists[Min.Line][0] == 0){
+            continue;
+        }
+        Insert(minHeap, lists[Min.Line][index[Min.Line]++], Min.Line);
+    }
+    
     
     return 0;
+}
+
+Heap* CreateHeap(int heapSize){
+    Heap* heap = (Heap*)malloc(sizeof(Heap));
+    if(heap == NULL){
+        printf("Out of Space\n");
+        return NULL;
+    }
+    heap->Key = (Element*)malloc(sizeof(struct _Element) * (heapSize + 1));
+    if(heap->Key == NULL){
+        printf("Out of Space\n");
+        return NULL;
+    }
+    heap->Size = 0;
+    heap->Capacity = heapSize;
+    heap->Key[0].Line = 0;
+    heap->Key[0].Element = INT_MIN;
+    return heap;
+}
+
+void Insert(Heap* heap, int value, int line){
+    heap->Key[++heap->Size].Element = value;
+    heap->Key[heap->Size].Line = line;
+//    PrintHeap(heap);
+}
+
+Element DeleteMin(Heap* heap, int lists[][MAX]){
+    int i, Child;
+    Element Min;
+    Element Last;
+
+    if(heap->Size == 0){
+        printf("Deletion Error : Max heap is empty!\n");
+    }
+    Min.Element = heap->Key[1].Element;
+    Min.Line = heap->Key[1].Line;
+    
+    Last.Element = heap->Key[heap->Size].Element;
+    Last.Line = heap->Key[heap->Size--].Line;
+    
+    for(i = 1; i * 2 <= heap->Size; i = Child){
+        Child = i * 2;
+        if(Child != heap->Size && heap->Key[Child + 1].Element < heap->Key[Child].Element)
+            Child++;
+        if(Last.Element > heap->Key[Child].Element){
+            heap->Key[i].Element = heap->Key[Child].Element;
+            heap->Key[i].Line = heap->Key[Child].Line;
+        }
+        else break;
+    }
+    heap->Key[i].Element = Last.Element;
+    heap->Key[i].Line = Last.Line;
+    
+    // If an empty line occurs, reduce the capacity
+    if(--lists[Min.Line][0] == 0){
+        heap->Capacity--;
+    }
+//    PrintHeap(heap);
+    return Min;
+}
+
+void Heapify(Heap* heap){
+    for (int i = heap->Size/2; i > 0; i--) {
+        PrecDown(heap, i);
+    }
+//    PrintHeap(heap);
+}
+
+void PrecDown(Heap* heap, int i){
+    int Child = 0;
+    
+    Element temp;
+    temp.Element = heap->Key[i].Element;
+    temp.Line = heap->Key[i].Line;
+    
+    for(; i*2 <= heap->Size; i = Child){
+        Child = i*2;
+        if(Child != heap->Size && heap->Key[Child+1].Element < heap->Key[Child].Element){
+            Child++;
+        }
+        if(temp.Element > heap->Key[Child].Element){
+            heap->Key[i].Element = heap->Key[Child].Element;
+            heap->Key[i].Line = heap->Key[Child].Line;
+        }
+        else break;
+    }
+    heap->Key[i].Element = temp.Element;
+    heap->Key[i].Line = temp.Line;
+}
+void PrintHeap(Heap* heap){
+    for (int i = 1; i <= heap->Size; i++) {
+            printf("%d ",heap->Key[i].Element);
+    }printf("\n");
 }
