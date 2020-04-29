@@ -49,6 +49,13 @@ int main(int argc, const char * argv[]) {
         fgets(input_node, MAX_STR, fp);
         token = strtok(input_node, " ");
         lists[i] = (int*)malloc(sizeof(int)*MAX);
+        
+        if(input_node[0] == '\n'){
+            printf("line %d is empty\n", i+1);
+            index[i] = 0;
+            continue;
+        }
+        
         int j = 1;
         
         while(token!=NULL){
