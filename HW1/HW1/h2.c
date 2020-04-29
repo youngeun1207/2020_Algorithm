@@ -6,6 +6,7 @@
 #include <string.h>
 #include <limits.h>
 
+#define MAX_STR 600
 #define MAX 100
 
 typedef struct _Element{
@@ -21,7 +22,7 @@ typedef struct _Heap{
 
 Heap* CreateHeap(int heapSize);
 void Insert(Heap* heap, int value, int line);
-Element DeleteMin(Heap* heap, int lists[][MAX]);
+Element DeleteMin(Heap* heap, int** lists);
 void Heapify(Heap* heap);
 void PrecDown(Heap* heap, int i);
 void PrintHeap(Heap* heap);
@@ -29,22 +30,34 @@ void PrintHeap(Heap* heap);
 int main(int argc, const char * argv[]) {
     FILE *fp = fopen("./input1-2.txt", "r");
     int num;
-    char input_node[MAX];
+    char input_node[MAX_STR];
     char* token;
-    int lists[MAX][MAX];
-    int index[MAX];
     Element Min;
     
     fgets(input_node, MAX, fp);
     num = atoi(input_node);
     
+    if(num >= MAX || num < 0){
+        printf("error! out of index\n");
+        return 0;
+    }
+    
+    int** lists = (int**)malloc(sizeof(int*)*num);
+    int* index = (int*)malloc(sizeof(int)*num);
+    
     for(int i = 0; i < num; i++){
-        fgets(input_node, MAX, fp);
+        fgets(input_node, MAX_STR, fp);
         token = strtok(input_node, " ");
+        lists[i] = (int*)malloc(sizeof(int)*MAX);
         int j = 1;
+        
         while(token!=NULL){
             lists[i][j] = atoi(token);
             token = strtok(NULL, " ");
+            if(j == MAX){
+                printf("error! out of index\n");
+                return 0;
+            }
             j++;
         }
         // save # of elements of lists[i] in lists[i][0]
@@ -77,7 +90,7 @@ int main(int argc, const char * argv[]) {
         Insert(minHeap, lists[Min.Line][index[Min.Line]++], Min.Line);
     }
     
-    
+    fclose(fp);
     return 0;
 }
 
@@ -105,13 +118,13 @@ void Insert(Heap* heap, int value, int line){
 //    PrintHeap(heap);
 }
 
-Element DeleteMin(Heap* heap, int lists[][MAX]){
+Element DeleteMin(Heap* heap, int** lists){
     int i, Child;
     Element Min;
     Element Last;
 
     if(heap->Size == 0){
-        printf("Deletion Error : Max heap is empty!\n");
+        printf("error! heap is empty!\n");
     }
     Min.Element = heap->Key[1].Element;
     Min.Line = heap->Key[1].Line;
