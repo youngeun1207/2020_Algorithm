@@ -42,7 +42,9 @@ int main(int argc, const char * argv[]) {
         return 0;
     }
     
+    // Dynamic allocation of double pointers to store lists lines
     int** lists = (int**)malloc(sizeof(int*)*num);
+    // Save index of elements in the list to put in the heap
     int* index = (int*)malloc(sizeof(int)*num);
     
     for(int i = 0; i < num; i++){
@@ -56,6 +58,7 @@ int main(int argc, const char * argv[]) {
             continue;
         }
         
+        // index [i][0] is for len of list
         int j = 1;
         
         while(token!=NULL){
@@ -67,8 +70,10 @@ int main(int argc, const char * argv[]) {
             }
             j++;
         }
-        // save # of elements of lists[i] in lists[i][0]
+        // Save # of elements of lists[i] in lists[i][0]
         lists[i][0] = j - 1;
+        
+        // Initialize the index to be put into heap with 1(first element of the lists)
         index[i] = 1;
     }
     

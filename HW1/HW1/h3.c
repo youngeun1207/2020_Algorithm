@@ -71,17 +71,21 @@ int RandomPartition(int arr[], int l, int r){
     int count;
     count = r - l + 1;
     srand((unsigned int)time(NULL));
+    // Choose 3 random index
     if(count >= 3){
         int j = 0;
         while(j < 3){
             i[j] = l + rand() % (r - l);
             j++;
         }
+        // After sorting, i[1] becomes the median
         InsertionSort(i, 3);
     }
+    // If len of list is less then 3, just choose 1 index randomly
     else{
         i[1] = l + rand() % (r - l);
     }
+    // Swap the position of the last element and the median(pivot)
     swap(&arr[r], &arr[i[1]]);
     return Partition(arr, l, r);
 }

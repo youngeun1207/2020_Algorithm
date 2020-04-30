@@ -12,8 +12,8 @@ void precDown(int n, int i, int maxHeap[]);
 
 int main(int argc, const char * argv[]) {
     int maxHeap[MAX];
-    int temp;                                       // check input is valid
-    int n = 0;                                      // # of keys
+    int temp;  // check input is valid
+    int n = 0; // # of keys
     while(1){
         scanf("%d", &temp);
         if(n > MAX){
@@ -37,18 +37,21 @@ int main(int argc, const char * argv[]) {
         }
     }
     
-    int* sorted = (int*)malloc(sizeof(int) * n);    // sorted array
+    // Dynamic allocation for sorted array
+    int* sorted = (int*)malloc(sizeof(int) * n);
     
     heapSort(n, maxHeap, sorted);
     
-    for(int i = 0; i < n; i++) {                    // print sorted array
+    // print sorted array
+    for(int i = 0; i < n; i++) {
         printf("%d ", sorted[i]);
     }printf("\n");
     
     return 0;
 }
 
-void heapify(int n, int maxHeap[]){                 // call precDown() n/2 to 0 (parent nodes)
+// call precDown() n/2 to 0 (parent nodes)
+void heapify(int n, int maxHeap[]){
     for (int i = n/2; i > 0; i--) {
         precDown(i, n, maxHeap);
     }
@@ -58,10 +61,12 @@ void precDown(int i, int n, int maxHeap[]){
     int temp;
     for(temp = maxHeap[i-1]; i*2 <= n; i = child){
         child = i*2;
-        if(child != n && maxHeap[i*2] > maxHeap[i*2-1]){    // compare children
+        // compare children
+        if(child != n && maxHeap[i*2] > maxHeap[i*2-1]){
             child++;
         }
-        if(temp < maxHeap[child-1]){                        // compare with parent
+        // compare with parent
+        if(temp < maxHeap[child-1]){
             maxHeap[i-1] = maxHeap[child-1];
         }
         else break;
@@ -70,7 +75,8 @@ void precDown(int i, int n, int maxHeap[]){
 }
 int deleteMax(int n, int maxHeap[]){
     int max = maxHeap[0];
-    maxHeap[0] = maxHeap[n-1];              // insert last node's value into first node
+    // insert last node's value into first node
+    maxHeap[0] = maxHeap[n-1];
     heapify(n, maxHeap);
     return max;
 }
@@ -78,6 +84,7 @@ void heapSort(int n, int maxHeap[], int* sorted){
     heapify(n, maxHeap);
     for(int i = 0; n > 0; i++) {
         sorted[i] = deleteMax(n, maxHeap);
-        n--;                                // remove last node
+        // remove last node
+        n--;
     }
 }
