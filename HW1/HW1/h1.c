@@ -18,7 +18,7 @@ int main(int argc, const char * argv[]) {
         scanf("%d", &temp);
         if(n > MAX){
             printf("error! out of index\n");
-            break;
+            return 0;;
         }
         if (temp == -1){
             if(n == 0){
