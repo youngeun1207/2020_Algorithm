@@ -1,24 +1,24 @@
 // 1-1
-// Max Heap sort
+// Min Heap sort
 
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX 100
+#define MAX 99
 
-void heapify(int n, int maxHeap[]);
-int deleteMax(int n, int maxHeap[]);
-void heapSort(int n, int maxHeap[], int* sorted);
-void precDown(int n, int i, int maxHeap[]);
+void heapify(int n, int minHeap[]);
+int deleteMin(int n, int minHeap[]);
+void heapSort(int n, int minHeap[]);
+void precDown(int n, int i, int minHeap[]);
 
 int main(int argc, const char * argv[]) {
-    int maxHeap[MAX];
+    int minHeap[MAX];
     int temp;  // check input is valid
     int n = 0; // # of keys
     while(1){
         scanf("%d", &temp);
         if(n > MAX){
             printf("error! out of index\n");
-            return 0;;
+            return 0;
         }
         if (temp == -1){
             if(n == 0){
@@ -31,59 +31,57 @@ int main(int argc, const char * argv[]) {
                 printf("error! out of range\n");
             }
             else{
-                maxHeap[n] = temp;
+                minHeap[n] = temp;
                 n++;
             }
         }
     }
     
-    // Dynamic allocation for sorted array
-    int* sorted = (int*)malloc(sizeof(int) * n);
-    
-    heapSort(n, maxHeap, sorted);
+    heapSort(n, minHeap);
     
     // print sorted array
     for(int i = 0; i < n; i++) {
-        printf("%d ", sorted[i]);
+        printf("%d ", minHeap[i]);
     }printf("\n");
     
     return 0;
 }
 
 // call precDown() n/2 to 0 (parent nodes)
-void heapify(int n, int maxHeap[]){
+void heapify(int n, int minHeap[]){
     for (int i = n/2; i > 0; i--) {
-        precDown(i, n, maxHeap);
+        precDown(i, n, minHeap);
     }
 }
-void precDown(int i, int n, int maxHeap[]){
+void precDown(int i, int n, int minHeap[]){
     int child = 0;
     int temp;
-    for(temp = maxHeap[i-1]; i*2 <= n; i = child){
+    for(temp = minHeap[i-1]; i*2 <= n; i = child){
         child = i*2;
         // compare children
-        if(child != n && maxHeap[i*2] > maxHeap[i*2-1]){
+        if(child != n && minHeap[i*2] < minHeap[i*2-1]){
             child++;
         }
         // compare with parent
-        if(temp < maxHeap[child-1]){
-            maxHeap[i-1] = maxHeap[child-1];
+        if(temp > minHeap[child-1]){
+            minHeap[i-1] = minHeap[child-1];
         }
         else break;
     }
-    maxHeap[i-1] = temp;
+    minHeap[i-1] = temp;
 }
-int deleteMax(int n, int maxHeap[]){
-    int max = maxHeap[0];
+int deleteMin(int n, int minHeap[]){
+    int min = minHeap[0];
     // insert last node's value into first node
-    maxHeap[0] = maxHeap[n-1];
-    heapify(n, maxHeap);
-    return max;
+    minHeap[0] = minHeap[n-1];
+    heapify(n, minHeap);
+    return min;
 }
-void heapSort(int n, int maxHeap[], int* sorted){
-    heapify(n, maxHeap);
+void heapSort(int n, int minHeap[]){
+    heapify(n, minHeap);
     for(int i = 0; n > 0; i++) {
-        sorted[i] = deleteMax(n, maxHeap);
+        // Put min element at the end of the list.
+        minHeap[n-1] = deleteMin(n, minHeap);
         // remove last node
         n--;
     }
