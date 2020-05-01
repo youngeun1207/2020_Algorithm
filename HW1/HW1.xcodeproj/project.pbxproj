@@ -31,6 +31,7 @@
 		0A985C5B2455D35200A9C0B9 /* h1.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = h1.c; sourceTree = "<group>"; };
 		0AF3F20B24575C7F00887157 /* h2.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = h2.c; sourceTree = "<group>"; };
 		0AF3F20D24575CEE00887157 /* h3.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = h3.c; sourceTree = "<group>"; };
+		0AF8B0EC245B941700E63C60 /* output1-3.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "output1-3.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +64,7 @@
 		0A985C5A2455D35200A9C0B9 /* HW1 */ = {
 			isa = PBXGroup;
 			children = (
+				0AF8B0EC245B941700E63C60 /* output1-3.txt */,
 				0A985C5B2455D35200A9C0B9 /* h1.c */,
 				0AF3F20B24575C7F00887157 /* h2.c */,
 				0AF3F20D24575CEE00887157 /* h3.c */,

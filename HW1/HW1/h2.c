@@ -25,7 +25,6 @@ void Insert(Heap* heap, int value, int line);
 Element DeleteMin(Heap* heap, int** lists);
 void Heapify(Heap* heap);
 void PrecDown(Heap* heap, int i);
-void PrintHeap(Heap* heap);
 
 int main(int argc, const char * argv[]) {
     FILE *fp = fopen("./input1-2.txt", "r");
@@ -49,8 +48,8 @@ int main(int argc, const char * argv[]) {
     
     for(int i = 0; i < num; i++){
         fgets(input_node, MAX_STR, fp);
-        token = strtok(input_node, " ");
         lists[i] = (int*)malloc(sizeof(int)*MAX);
+        token = strtok(input_node, " ");
         
         if(input_node[0] == '\n'){
             printf("line %d is empty\n", i+1);
@@ -101,7 +100,7 @@ int main(int argc, const char * argv[]) {
         }
         Insert(minHeap, lists[Min.Line][index[Min.Line]++], Min.Line);
     }
-    
+    printf("\n");
     fclose(fp);
     return 0;
 }
@@ -127,7 +126,6 @@ Heap* CreateHeap(int heapSize){
 void Insert(Heap* heap, int value, int line){
     heap->Key[++heap->Size].Element = value;
     heap->Key[heap->Size].Line = line;
-//    PrintHeap(heap);
 }
 
 Element DeleteMin(Heap* heap, int** lists){
@@ -161,7 +159,6 @@ Element DeleteMin(Heap* heap, int** lists){
     if(--lists[Min.Line][0] == 0){
         heap->Capacity--;
     }
-//    PrintHeap(heap);
     return Min;
 }
 
@@ -169,7 +166,6 @@ void Heapify(Heap* heap){
     for (int i = heap->Size/2; i > 0; i--) {
         PrecDown(heap, i);
     }
-//    PrintHeap(heap);
 }
 
 void PrecDown(Heap* heap, int i){
@@ -192,9 +188,4 @@ void PrecDown(Heap* heap, int i){
     }
     heap->Key[i].Element = temp.Element;
     heap->Key[i].Line = temp.Line;
-}
-void PrintHeap(Heap* heap){
-    for (int i = 1; i <= heap->Size; i++) {
-            printf("%d ",heap->Key[i].Element);
-    }printf("\n");
 }
