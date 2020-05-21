@@ -19,22 +19,19 @@ int main(int argc, const char * argv[]) {
         printf("error: out of range\n");
         return 0;
     }
-    int* costs = (int*)malloc(sizeof(int)*(length+1));
+    int* costs = CreateArray(length);
     
-    char temp = 0;
-    costs[0] = 0;
-    int i = 1;
-    while(temp != '\n'){
+    for(int i = 1; i <= length; i++){
         int cost;
         fscanf(fi, "%d", &cost);
-        costs[i++] = cost;
-        temp = fgetc(fi);
+        costs[i] = cost;
     }
     int* MaxCost = CreateArray(length);
     int* MaxLen = CreateArray(length);
     
     BottomUpCutRod(costs, length, MaxCost, MaxLen);
     
+    // Print Cut Rod Solution
     printf("%d\n",MaxCost[length]);
     while(length > 0) {
         printf("%d ",MaxLen[length]);
@@ -42,21 +39,20 @@ int main(int argc, const char * argv[]) {
     }
     
     fclose(fi);
-    free(costs);
     return 0;
 }
 
 void BottomUpCutRod(int* costs, int length, int* MaxCost, int* MaxLen){
-    int q;
+    int max;
     for(int i = 1; i <= length; i++){
-        q = INT_MIN;
+        max = INT_MIN;
         for(int j = 1; j <= i; j++){
-            if(q < costs[j] + MaxCost[i-j]){
-                q = costs[j] + MaxCost[i-j];
+            if(max < costs[j] + MaxCost[i-j]){
+                max = costs[j] + MaxCost[i-j];
                 MaxLen[i] = j;
             }
         }
-        MaxCost[i] = q;
+        MaxCost[i] = max;
     }
 }
 
