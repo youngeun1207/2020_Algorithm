@@ -27,6 +27,8 @@
 		0A77DBEC2475248E009CAFB5 /* HW2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HW2; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A77DBF924752526009CAFB5 /* 2-1.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "2-1.c"; sourceTree = "<group>"; };
 		0A77DBFB24752550009CAFB5 /* 2-2.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "2-2.c"; sourceTree = "<group>"; };
+		0A77DBFD247678D9009CAFB5 /* input2-1.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "input2-1.txt"; sourceTree = "<group>"; };
+		0A77DBFE247678FA009CAFB5 /* input2-2.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "input2-2.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,8 @@
 			children = (
 				0A77DBF924752526009CAFB5 /* 2-1.c */,
 				0A77DBFB24752550009CAFB5 /* 2-2.c */,
+				0A77DBFD247678D9009CAFB5 /* input2-1.txt */,
+				0A77DBFE247678FA009CAFB5 /* input2-2.txt */,
 			);
 			path = HW2;
 			sourceTree = "<group>";
